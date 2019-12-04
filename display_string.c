@@ -44,8 +44,9 @@ int             ft_display_string(va_list arguments, t_format *specifiers)
     char    *trash;
 
     counter = 0;
-    if (!(str = va_arg(arguments, char *)))
-        str = ft_null_str();
+    trash = NULL;
+    if (!(str = va_arg(arguments, char *)) && (str = ft_null_str()))
+        trash = str;
     if (specifiers->precision == -1)
         length = ft_strlen(str);
     else
@@ -53,14 +54,11 @@ int             ft_display_string(va_list arguments, t_format *specifiers)
     if (specifiers->flag_minus == 0)
         counter += ft_print_space(' ', specifiers->width_field - length);
     i = 0;
-    trash = str;
-    while (*str && length > i)
-    {
-        counter += ft_print_char(*str++);
+    while (*str && length > i && (counter += ft_print_char(*str++)))
         i++;
-    }
     if (specifiers->flag_minus == 1)
         counter += ft_print_space(' ', specifiers->width_field - length);
-    free(trash);
+    if (trash)
+        free(trash);
     return(counter);
 }

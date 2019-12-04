@@ -39,7 +39,7 @@ static void		ft_parse_width_field(const char **format, t_format *specifier)
 		specifier->width_field *= 10;
 		specifier->width_field += **format - 48;
 		(*format)++;
-	} 
+	}
 }
 
 static void		ft_parse_precision(const char **format, t_format *specifier)

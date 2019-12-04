@@ -39,7 +39,7 @@ static char         *ft_zero_str(void)
     return (str);
 }
 
-static char         *ft_itoa_base(unsigned long number, int base, char c, t_format *specifiers)
+static char         *ft_itoa_base(unsigned long number, int base, char c)
 {
     unsigned long   buffer;
     int             length;
@@ -48,14 +48,10 @@ static char         *ft_itoa_base(unsigned long number, int base, char c, t_form
     if (number == 0)
         return (ft_zero_str());
     length = 0;
-    if (specifiers->flag_hash == 1)
-		length += 2;
     buffer = number;
-    while (buffer && length++)
+    while (buffer && ++length)
         buffer /= base;
     str = (char*)malloc(sizeof(char) * (length + 1));
-    if (specifiers->flag_hash == 1 && (str[0] = '0'))
-        str[1] = c + 23;
     str[length] = '\0';
     buffer = number;
     while (buffer)
@@ -77,10 +73,16 @@ int                 ft_display_hexadecimal(va_list arguments, t_format *specifie
 
     counter = 0;
     number = ft_get_number(arguments, specifiers);
-	str = ft_itoa_base(number, 16, specifiers->type_field - 23, specifiers);
+    if (number == 0)
+        specifiers->flag_hash = 0;
+    str = ft_itoa_base(number, 16, specifiers->type_field - 23);
 	length = ft_strlen(str);
-    if (specifiers->flag_minus == 0)
-        counter += ft_print_space(' ', specifiers->width_field - length);
+    if (specifiers->flag_minus == 0 && specifiers->flag_zero == 0)
+        counter += ft_print_space(' ', specifiers->width_field - length - 2 * specifiers->flag_hash);
+    if (specifiers->flag_hash == 1 && (counter += ft_print_char('0')))
+        counter += ft_print_char(specifiers->type_field);
+    if (specifiers->flag_zero == 1)
+        counter += ft_print_space('0', specifiers->width_field - length - 2 * specifiers->flag_hash);
     trash = str;
     while (*str)
         counter += ft_print_char(*str++);

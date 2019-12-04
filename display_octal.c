@@ -51,9 +51,9 @@ static char			*ft_itoa_base(unsigned long number, int base, char c, t_format *sp
 	if (specifiers->flag_hash == 1)
 		length++;
     buffer = number;
-    while (buffer && length++)
+    while (buffer && ++length)
         buffer /= base;
-	str = (char*)malloc(sizeof(char) * (length + 1));
+    str = (char*)malloc(sizeof(char) * (length + 1));
 	if (specifiers->flag_hash == 1)
 		str[0] = '0';
 	str[length] = '\0';

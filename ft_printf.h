@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/11/30 17:23:15 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/04 13:23:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 // http://phix.x10.mx/docs/html/printf.htm
 // https://github.com/davhojt/ft_printf
 // https://github.com/roblabla42/ft_printf
+// http://www.cplusplus.com/reference/cstdio/printf/
+
+// non-printable https://github.com/mikim42/ft_printf/blob/master/srcs/print_non_printable.c
+// random https://stackoverflow.com/questions/4768180/rand-implementation
+//        https://en.wikipedia.org/wiki/Linear_congruential_generator
+// binary https://github.com/Eywek/42/blob/master/ft_printf/srcs/types/binary.c
 
 # include <ctype.h>
 # include <fcntl.h>
