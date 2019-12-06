@@ -61,6 +61,6 @@ int	    ft_display(va_list arguments, t_format *specifiers)
 	else if (flag == 'x' || flag == 'X')
 		return (ft_display_hexadecimal(arguments, specifiers));
 	else if (flag == 'f')
-		return (0);
+		return (ft_display_float(arguments, specifiers));
 	return (0);
 }

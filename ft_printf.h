@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/04 13:23:13 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/04 16:30:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int     ft_display_integer(va_list arguments, t_format *specifiers);
 int     ft_display_octal(va_list arguments, t_format *specifiers);
 int		ft_display_unsigned(va_list arguments, t_format *specifiers);
 int     ft_display_hexadecimal(va_list arguments, t_format *specifiers);
+int     ft_display_float(va_list arguments, t_format *specifiers);
 int     ft_display(va_list arguments, t_format *specifiers);
 
 int     ft_strlen(const char *s);
