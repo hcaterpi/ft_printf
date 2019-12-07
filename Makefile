@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/26 14:40:19 by htrent            #+#    #+#              #
-#    Updated: 2019/11/30 18:51:56 by marvin           ###   ########.fr        #
+#    Updated: 2019/12/07 15:30:54 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 NAME =	ft_printf.a
 
 SRCS =	display_char.c \
+		display_float.c \
 		display_hexadecimal.c \
 		display_integer.c \
 		display_octal.c \
