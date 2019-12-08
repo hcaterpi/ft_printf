@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/04 16:30:07 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/07 21:19:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # include <ctype.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <stdarg.h>
 # include <stdint.h>        // uintmax_t
 # include <stdio.h>

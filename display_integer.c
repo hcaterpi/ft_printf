@@ -48,13 +48,15 @@ static int			ft_numlensign(intmax_t *number, int *sign, t_format *specifiers)
 		else if (specifiers->flag_space == 1)
 			*sign = 32;
 	}
+	if (*number == LLONG_MIN)
+		return (20);
 	buffer = *number;
 	while ((buffer /= 10) > 0)
 		digit++;
 	return (digit);
 }
 
-int					ft_display_integer(va_list arguments, t_format *specifiers)		// norme
+int					ft_display_integer(va_list arguments, t_format *specifiers)
 {
     int     	counter;
 	int			length;
@@ -64,23 +66,19 @@ int					ft_display_integer(va_list arguments, t_format *specifiers)		// norme
 	counter = 0;
     number = ft_get_number(arguments, specifiers);
     length = ft_numlensign(&number, &sign, specifiers);
+	if (sign && specifiers->flag_zero)
+			counter += ft_print_char(sign);
 	if (specifiers->flag_zero == 1)
-	{
-		if (sign)
-			counter += ft_print_char(sign);
         counter += ft_print_space('0', specifiers->width_field - length);
-	}
-    else if (specifiers->flag_minus == 0)
-	{
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
-		if (sign)
+	else if (specifiers->flag_minus == 0)
+		counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
+	if (sign && !specifiers->flag_zero)
 			counter += ft_print_char(sign);
-	}
-	else if (sign)
-		counter += ft_print_char(sign);
 	counter += ft_print_space('0', specifiers->precision - length);
     counter += ft_print_number(number);
     if (specifiers->flag_minus == 1)
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
+        counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
     return (counter);
 }

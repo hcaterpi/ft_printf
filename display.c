@@ -23,9 +23,14 @@ int     ft_print_number(intmax_t number)
 	int counter;
 
 	counter = 0;
-	if (number >= 10)
-		counter += ft_print_number(number / 10);
-	counter += ft_print_char((number % 10) + '0');
+	if (number == LLONG_MIN)
+		counter += ft_print_char('9') + ft_print_number(223372036854775808);
+	else
+	{
+		if (number >= 10)
+			counter += ft_print_number(number / 10);
+		counter += ft_print_char((number % 10) + '0');
+	}
     return (counter);
 }
 

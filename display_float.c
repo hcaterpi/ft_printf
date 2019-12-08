@@ -132,5 +132,6 @@ int             ft_display_float(va_list arguments, t_format *specifiers)
 		counter += ft_print_char(*str++);
 	if (specifiers->flag_minus == 1)
         counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
-    return (counter);
+    //free(trash);
+	return (counter);
 }
