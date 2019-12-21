@@ -41,7 +41,7 @@ static int			ft_numlen(intmax_t number)
 	return (digit);
 }
 
-int					ft_display_unsigned(va_list arguments, t_format *specifiers)		// norme
+int					ft_display_unsigned(va_list arguments, t_format *specifiers)
 {
     int     	counter;
 	int			length;
@@ -51,10 +51,12 @@ int					ft_display_unsigned(va_list arguments, t_format *specifiers)		// norme
     number = ft_get_number(arguments, specifiers);
     length = ft_numlen(number);
 	if (specifiers->flag_minus == 0)
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
+        counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
 	counter += ft_print_space('0', specifiers->precision - length);
     counter += ft_print_number(number);
     if (specifiers->flag_minus == 1)
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
+        counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
     return (counter);
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/07 21:19:11 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/21 19:14:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct      s_format
 void	ft_parse(const char **format, t_format *specifiers);
 
 int     ft_print_char(char c);
+int		ft_print_string(char *s);
 int     ft_print_number(intmax_t number);
 int     ft_print_space(char c, int width);
 
@@ -77,6 +78,7 @@ int     ft_display(va_list arguments, t_format *specifiers);
 int     ft_strlen(const char *s);
 int		ft_nonnegative(int number);
 char    ft_get_char(int number, char c);
+char	*ft_ftoa(long double number, t_format *specifiers);
 
 int     ft_printf(const char *format, ...);
 

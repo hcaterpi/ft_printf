@@ -12,34 +12,10 @@
 
 #include "ft_printf.h"
 
-// https://github.com/Eywek/42/blob/master/ft_printf/srcs/types/floats.c
-// https://github.com/Eywek/42/blob/master/ft_printf/srcs/utils/floats.c
-// https://ravesli.com/urok-33-tip-dannyh-s-plavayushhej-tochkoj-floating-point/
-
-static double	ft_get_number(va_list arguments, t_format *specifiers)
-{
-	double  number;
-
-	if (specifiers->length == 4)
-		number = (double)(va_arg(arguments, double));
-    else if (specifiers->length == 5)
-		number = (long double)(va_arg(arguments, long double));
-	else
-		number = (double)(va_arg(arguments, double));
-	return (number);
-}
-
-double	ft_pow(double n, int pow)
-{
-	if (pow)
-		return (n * ft_pow(n, pow - 1));
-	else
-		return (1);
-}
-
 static double	ft_sign(double number, int *sign, t_format *specifiers)
 {
-	if (number >= 0 && specifiers->flag_plus == 0 && specifiers->flag_space == 0)
+	if (number >= 0 && specifiers->flag_plus == 0
+	&& specifiers->flag_space == 0)
 		*sign = 0;
 	else
 	{
@@ -53,85 +29,74 @@ static double	ft_sign(double number, int *sign, t_format *specifiers)
 	return (number);
 }
 
-static char		*ft_ftoa(double number, t_format *specifiers)
+static char     *ft_err_str(int error)
 {
-	unsigned long	buffer;
-	unsigned long	decimal;
-    int				length;
-    char			*str;
+    char    *str;
 
-	length = 0;
-	if (specifiers->precision > 0)
-		length = specifiers->precision + 1;
-    buffer = (long)number;
-	while (buffer && ++length)
-        buffer /= 10;
-	str = (char*)malloc(sizeof(char) * (length + 1));
-    str[length] = '\0';
+    str = (char*)malloc(sizeof(char) * 5);
+	if (error == 1)
+	{
+		str[0] = '-';
+		str[1] = 'n';
+		str[2] = 'a';
+		str[3] = 'n';
+		str[4] = '\0';
+	}
+	else if (error == 2)
+	{
+		str[0] = 'i';
+		str[1] = 'n';
+		str[2] = 'f';
+		str[3] = '\0';
+	}
+    return (str);
+}
 
-	decimal = (unsigned long)((number - (long)number) * ft_pow(10, specifiers->precision + 1));
-	if (decimal % 10 > 4)
-		decimal = decimal / 10 + 1;
+static char		*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
+{
+	long double		number;
+	char			*str;
+
+    if (specifiers->length == 5)
+		number = (long double)(va_arg(arguments, long double));
 	else
-		decimal = decimal / 10;
-	while (decimal)
-	{
-		str[length - 1] = decimal % 10 + '0';
-		decimal /= 10;
-		length--;
-	}
-	if (specifiers->precision)
-	{
-		str[length - 1] = '.';
-		length--;
-	}
-
-	buffer = (long)number;
-	while (buffer)
-	{
-		str[length - 1] = buffer % 10 + '0';
-		buffer /= 10;
-		length--;
-	}
+		number = (double)(va_arg(arguments, double));
+    number = ft_sign(number, sign, specifiers);
+	if (number != number && (specifiers->precision = -1))
+		return (ft_err_str(1));
+	else if (number != 0 && number * 10 == number
+	&& (specifiers->precision = -1))
+		return (ft_err_str(2));
+	if (specifiers->precision == -1)
+		specifiers->precision = 6;
+	str = ft_ftoa(number, specifiers);
 	return (str);
 }
 
 int             ft_display_float(va_list arguments, t_format *specifiers)
 {
-    int     counter;
-	int		length;
-    double  number;
-	int		sign;
-	char	*str;
+    int				counter;
+	int				length;
+	int				sign;
+	char			*str;
 
     counter = 0;
-    number = ft_sign(ft_get_number(arguments, specifiers), &sign, specifiers);
-	if (specifiers->precision == -1)
-		specifiers->precision = 6;
-	str = ft_ftoa(number, specifiers);
+	str = ft_get_str(arguments, specifiers, &sign);
 	length = ft_strlen(str);
-	if (sign)
-		length++;
-
+	if (sign && length++ && specifiers->flag_zero)
+			counter += ft_print_char(sign);
 	if (specifiers->flag_zero == 1)
-	{
-		if (sign)
-			counter += ft_print_char(sign);
         counter += ft_print_space('0', specifiers->width_field - length);
-	}
-    else if (specifiers->flag_minus == 0)
-	{
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
-		if (sign)
+	else if (specifiers->flag_minus == 0)
+		counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
+	if (sign && !specifiers->flag_zero)
 			counter += ft_print_char(sign);
-	}
-	else if (sign)
-		counter += ft_print_char(sign);
 	counter += ft_print_space('0', specifiers->precision - length);
-	while (*str)
-		counter += ft_print_char(*str++);
-	if (specifiers->flag_minus == 1)
-        counter += ft_print_space(' ', specifiers->width_field - length - ft_nonnegative(specifiers->precision - length));
-    //free(trash);
+	counter += ft_print_string(str);
+    if (specifiers->flag_minus == 1)
+		counter += ft_print_space(' ', specifiers->width_field - length
+		- ft_nonnegative(specifiers->precision - length));
+	free(str);
 	return (counter);
 }

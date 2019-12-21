@@ -69,7 +69,6 @@ int                 ft_display_hexadecimal(va_list arguments, t_format *specifie
     int             length;
     unsigned long	number;
     char            *str;
-    char            *trash;
 
     counter = 0;
     number = ft_get_number(arguments, specifiers);
@@ -83,11 +82,9 @@ int                 ft_display_hexadecimal(va_list arguments, t_format *specifie
         counter += ft_print_char(specifiers->type_field);
     if (specifiers->flag_zero == 1)
         counter += ft_print_space('0', specifiers->width_field - length - 2 * specifiers->flag_hash);
-    trash = str;
-    while (*str)
-        counter += ft_print_char(*str++);
+    counter += ft_print_string(str);
     if (specifiers->flag_minus == 1)
         counter += ft_print_space(' ', specifiers->width_field - length);
-    free(trash);
+    free(str);
     return (counter);
 }

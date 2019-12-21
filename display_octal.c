@@ -73,7 +73,6 @@ int					ft_display_octal(va_list arguments, t_format *specifiers)
 	int			length;
     intmax_t	number;
     char		*str;
-	char		*trash;
 
 	counter = 0;
     number = ft_get_number(arguments, specifiers);
@@ -81,14 +80,12 @@ int					ft_display_octal(va_list arguments, t_format *specifiers)
 	length = ft_strlen(str);
     if (specifiers->flag_minus == 0)
         counter += ft_print_space(' ', specifiers->width_field - length
-		- ft_nonnegative(specifiers->precision - length));
-    trash = str;
-	counter += ft_print_space('0', specifiers->precision - length);
-    while (*str)
-        counter += ft_print_char(*str++);
+        - ft_nonnegative(specifiers->precision - length));
+    counter += ft_print_space('0', specifiers->precision - length);
+    counter += ft_print_string(str);
     if (specifiers->flag_minus == 1)
         counter += ft_print_space(' ', specifiers->width_field - length
 		- ft_nonnegative(specifiers->precision - length));
-    free(trash);
+    free(str);
     return (counter);
 }

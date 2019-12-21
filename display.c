@@ -18,9 +18,19 @@ int   	ft_print_char(char c)
     return (1);
 }
 
+int		ft_print_string(char *s)
+{
+	int		counter;
+
+	counter = 0;
+	while (*s)
+		counter += ft_print_char(*s++);
+	return (counter);
+}
+
 int     ft_print_number(intmax_t number)
 {
-	int counter;
+	int		counter;
 
 	counter = 0;
 	if (number == LLONG_MIN)
@@ -36,7 +46,7 @@ int     ft_print_number(intmax_t number)
 
 int    ft_print_space(char c, int width)
 {
-    int  counter;
+    int		counter;
 
     counter = 0;
     while (width-- > 0)

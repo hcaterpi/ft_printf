@@ -59,7 +59,6 @@ int             ft_display_pointer(va_list arguments, t_format *specifiers)
     int             length;
     unsigned long	number;
     char            *str;
-    char            *trash;
 
     counter = 0;
     if ((number = (unsigned long)(va_arg(arguments, unsigned long int))))
@@ -69,11 +68,9 @@ int             ft_display_pointer(va_list arguments, t_format *specifiers)
     length = ft_strlen(str);
     if (specifiers->flag_minus == 0)
         counter += ft_print_space(' ', specifiers->width_field - length);
-    trash = str;
-    while (*str)
-        counter += ft_print_char(*str++);
+    counter += ft_print_string(str);
     if (specifiers->flag_minus == 1)
         counter += ft_print_space(' ', specifiers->width_field - length);
-    free(trash);
+    free(str);
     return (counter);
 }
