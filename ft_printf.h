@@ -6,25 +6,16 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/21 19:14:25 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/22 02:58:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-// https://www.viva64.com/ru/t/0098/
-// https://medium.com/@zhang.yine/ft-printf-d95747b7aa5a
-// http://c-faq.com/~scs/cgi-bin/faqcat.cgi?sec=varargs
-// http://phix.x10.mx/docs/html/printf.htm
-// https://github.com/davhojt/ft_printf
-// https://github.com/roblabla42/ft_printf
-// http://www.cplusplus.com/reference/cstdio/printf/
-
 // non-printable https://github.com/mikim42/ft_printf/blob/master/srcs/print_non_printable.c
 // random https://stackoverflow.com/questions/4768180/rand-implementation
 //        https://en.wikipedia.org/wiki/Linear_congruential_generator
-// binary https://github.com/Eywek/42/blob/master/ft_printf/srcs/types/binary.c
 
 # include <ctype.h>
 # include <fcntl.h>
@@ -36,7 +27,6 @@
 # include <string.h>
 # include <stdbool.h>
 # include <unistd.h>
-# include <wchar.h>         // wint_t
 
 typedef struct      s_format
 {
@@ -73,6 +63,7 @@ int     ft_display_octal(va_list arguments, t_format *specifiers);
 int		ft_display_unsigned(va_list arguments, t_format *specifiers);
 int     ft_display_hexadecimal(va_list arguments, t_format *specifiers);
 int     ft_display_float(va_list arguments, t_format *specifiers);
+int     ft_display_binary(va_list arguments, t_format *specifiers);
 int     ft_display(va_list arguments, t_format *specifiers);
 
 int     ft_strlen(const char *s);

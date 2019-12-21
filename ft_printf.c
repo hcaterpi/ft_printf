@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/02 19:40:26 by marvin           ###   ########.fr       */
+/*   Updated: 2019/12/21 19:44:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			ft_show_test_info(t_format *specifiers)		// DELETE !!!
 
 int				ft_printf(const char *format, ...)
 {
-	int		counter;
+	int			counter;
 	t_format	specifiers;
 	va_list		arguments;
 

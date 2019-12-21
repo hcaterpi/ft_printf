@@ -39,7 +39,7 @@ static char         *ft_zero_str(void)
     return (str);
 }
 
-static char         *ft_itoa_base(unsigned long number, int base, char c)
+static char         *ft_itoa_base(unsigned long number, char c)
 {
     unsigned long   buffer;
     int             length;
@@ -50,14 +50,14 @@ static char         *ft_itoa_base(unsigned long number, int base, char c)
     length = 0;
     buffer = number;
     while (buffer && ++length)
-        buffer /= base;
+        buffer /= 16;
     str = (char*)malloc(sizeof(char) * (length + 1));
     str[length] = '\0';
     buffer = number;
     while (buffer)
     {
-        str[length - 1] = ft_get_char(buffer % base, c);
-        buffer /= base;
+        str[length - 1] = ft_get_char(buffer % 16, c);
+        buffer /= 16;
         length--;
     }
     return (str);
@@ -74,7 +74,7 @@ int                 ft_display_hexadecimal(va_list arguments, t_format *specifie
     number = ft_get_number(arguments, specifiers);
     if (number == 0)
         specifiers->flag_hash = 0;
-    str = ft_itoa_base(number, 16, specifiers->type_field - 23);
+    str = ft_itoa_base(number, specifiers->type_field - 23);
 	length = ft_strlen(str);
     if (specifiers->flag_minus == 0 && specifiers->flag_zero == 0)
         counter += ft_print_space(' ', specifiers->width_field - length - 2 * specifiers->flag_hash);

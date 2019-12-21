@@ -56,26 +56,25 @@ int    ft_print_space(char c, int width)
 
 int	    ft_display(va_list arguments, t_format *specifiers)
 {
-	char	flag;
-
-	flag = specifiers->type_field;
-    if (flag == '%')
-        return(ft_print_char(flag));
-	else if (flag == 'c')
+    if (specifiers->type_field == '%')
+        return(ft_print_char(specifiers->type_field));
+	else if (specifiers->type_field == 'c')
 		return(ft_display_char(arguments, specifiers));
-	else if (flag == 's')
+	else if (specifiers->type_field == 's')
 		return (ft_display_string(arguments, specifiers));
-	else if (flag == 'p')
+	else if (specifiers->type_field == 'p')
 		return (ft_display_pointer(arguments, specifiers));
-	else if (flag == 'd' || flag == 'i')
+	else if (specifiers->type_field == 'd' || specifiers->type_field == 'i')
 		return (ft_display_integer(arguments, specifiers));
-	else if (flag == 'o')
+	else if (specifiers->type_field == 'o')
 		return (ft_display_octal(arguments, specifiers));
-	else if (flag == 'u')
+	else if (specifiers->type_field == 'u')
 		return (ft_display_unsigned(arguments, specifiers));
-	else if (flag == 'x' || flag == 'X')
+	else if (specifiers->type_field == 'x' || specifiers->type_field == 'X')
 		return (ft_display_hexadecimal(arguments, specifiers));
-	else if (flag == 'f')
+	else if (specifiers->type_field == 'f')
 		return (ft_display_float(arguments, specifiers));
+	else if (specifiers->type_field == 'b' || specifiers->type_field == 'B')
+		return (ft_display_binary(arguments, specifiers));
 	return (0);
 }

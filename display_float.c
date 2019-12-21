@@ -12,14 +12,16 @@
 
 #include "ft_printf.h"
 
-static double	ft_sign(double number, int *sign, t_format *specifiers)
+static long double	ft_sign(long double number, int *sign, t_format *specifiers)
 {
-	if (number >= 0 && specifiers->flag_plus == 0
+	if (number >= 0 && number != -0.0f && specifiers->flag_plus == 0
 	&& specifiers->flag_space == 0)
 		*sign = 0;
 	else
 	{
-		if (number < 0 && (number *= -1))
+		if (number == -0.0f)
+			*sign = 45;
+		else if (number < 0 && (number *= -1))
 			*sign = 45;
 		else if (specifiers->flag_plus == 1)
 			*sign = 43;
@@ -29,7 +31,7 @@ static double	ft_sign(double number, int *sign, t_format *specifiers)
 	return (number);
 }
 
-static char     *ft_err_str(int error)
+static char     	*ft_err_str(int error)
 {
     char    *str;
 
@@ -52,7 +54,7 @@ static char     *ft_err_str(int error)
     return (str);
 }
 
-static char		*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
+static char			*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
 {
 	long double		number;
 	char			*str;
@@ -73,7 +75,7 @@ static char		*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
 	return (str);
 }
 
-int             ft_display_float(va_list arguments, t_format *specifiers)
+int             	ft_display_float(va_list arguments, t_format *specifiers)
 {
     int				counter;
 	int				length;
