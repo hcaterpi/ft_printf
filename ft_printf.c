@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hcaterpi <hcaterpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/21 16:40:45 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/21 19:44:45 by marvin           ###   ########.fr       */
+/*   Created: 2019/12/22 15:24:41 by hcaterpi          #+#    #+#             */
+/*   Updated: 2019/12/22 15:24:45 by hcaterpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,6 @@ static void		ft_init(t_format *specifiers)
 	specifiers->type_field = 0;
 }
 
-void			ft_show_test_info(t_format *specifiers)		// DELETE !!!
-{
-	printf("Flag minus = %d\n", specifiers->flag_minus);
-	printf("Flag plus = %d\n", specifiers->flag_plus);
-	printf("Flag space = %d\n", specifiers->flag_space);
-	printf("Flag hash = %d\n", specifiers->flag_hash);
-	printf("Flag zero = %d\n", specifiers->flag_zero);
-	printf("Width field = %d\n", specifiers->width_field);
-	printf("Precision = %d\n", specifiers->precision);
-	printf("Length = %d\n", specifiers->length);
-	printf("Type field = %c\n", specifiers->type_field);
-}
-
 int				ft_printf(const char *format, ...)
 {
 	int			counter;
@@ -45,7 +32,7 @@ int				ft_printf(const char *format, ...)
 	va_list		arguments;
 
 	counter = 0;
-    va_start(arguments, format);
+	va_start(arguments, format);
 	while (*format)
 	{
 		if (*format == '%')
@@ -53,7 +40,6 @@ int				ft_printf(const char *format, ...)
 			format++;
 			ft_init(&specifiers);
 			ft_parse(&format, &specifiers);
-			//ft_show_test_info(&specifiers);
 			counter += ft_display(arguments, &specifiers);
 		}
 		else

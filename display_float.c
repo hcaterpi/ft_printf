@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_float.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hcaterpi <hcaterpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/04 13:40:39 by marvin            #+#    #+#             */
-/*   Updated: 2019/12/04 13:40:39 by marvin           ###   ########.fr       */
+/*   Created: 2019/12/22 14:26:46 by hcaterpi          #+#    #+#             */
+/*   Updated: 2019/12/22 15:03:39 by hcaterpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static long double	ft_sign(long double number, int *sign, t_format *specifiers)
 	return (number);
 }
 
-static char     	*ft_err_str(int error)
+static char			*ft_err_str(int error)
 {
-    char    *str;
+	char	*str;
 
-    str = (char*)malloc(sizeof(char) * 5);
+	str = (char*)malloc(sizeof(char) * 5);
 	if (error == 1)
 	{
 		str[0] = '-';
@@ -51,19 +51,19 @@ static char     	*ft_err_str(int error)
 		str[2] = 'f';
 		str[3] = '\0';
 	}
-    return (str);
+	return (str);
 }
 
-static char			*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
+static char			*ft_get(va_list arguments, t_format *specifiers, int *sign)
 {
 	long double		number;
 	char			*str;
 
-    if (specifiers->length == 5)
+	if (specifiers->length == 5)
 		number = (long double)(va_arg(arguments, long double));
 	else
 		number = (double)(va_arg(arguments, double));
-    number = ft_sign(number, sign, specifiers);
+	number = ft_sign(number, sign, specifiers);
 	if (number != number && (specifiers->precision = -1))
 		return (ft_err_str(1));
 	else if (number != 0 && number * 10 == number
@@ -75,28 +75,28 @@ static char			*ft_get_str(va_list arguments, t_format *specifiers, int *sign)
 	return (str);
 }
 
-int             	ft_display_float(va_list arguments, t_format *specifiers)
+int					ft_display_float(va_list arguments, t_format *specifiers)
 {
-    int				counter;
+	int				counter;
 	int				length;
 	int				sign;
 	char			*str;
 
-    counter = 0;
-	str = ft_get_str(arguments, specifiers, &sign);
+	counter = 0;
+	str = ft_get(arguments, specifiers, &sign);
 	length = ft_strlen(str);
 	if (sign && length++ && specifiers->flag_zero)
-			counter += ft_print_char(sign);
+		counter += ft_print_char(sign);
 	if (specifiers->flag_zero == 1)
-        counter += ft_print_space('0', specifiers->width_field - length);
+		counter += ft_print_space('0', specifiers->width_field - length);
 	else if (specifiers->flag_minus == 0)
 		counter += ft_print_space(' ', specifiers->width_field - length
 		- ft_nonnegative(specifiers->precision - length));
 	if (sign && !specifiers->flag_zero)
-			counter += ft_print_char(sign);
+		counter += ft_print_char(sign);
 	counter += ft_print_space('0', specifiers->precision - length);
 	counter += ft_print_string(str);
-    if (specifiers->flag_minus == 1)
+	if (specifiers->flag_minus == 1)
 		counter += ft_print_space(' ', specifiers->width_field - length
 		- ft_nonnegative(specifiers->precision - length));
 	free(str);

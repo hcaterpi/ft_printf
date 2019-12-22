@@ -3,76 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hcaterpi <hcaterpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 14:48:54 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/09 14:48:54 by marvin           ###   ########.fr       */
+/*   Created: 2019/12/22 15:26:50 by hcaterpi          #+#    #+#             */
+/*   Updated: 2019/12/22 16:21:03 by hcaterpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void		ft_parse_flags(const char **format, t_format *specifier)
+static void		ft_parse_flags(const char **format, t_format *specifiers)
 {
-    while (*format)
+	while (*format)
 	{
 		if (**format == '-')
-			specifier->flag_minus = 1;
+			specifiers->flag_minus = 1;
 		else if (**format == '+')
-			specifier->flag_plus = 1;
+			specifiers->flag_plus = 1;
 		else if (**format == ' ')
-			specifier->flag_space = 1;
+			specifiers->flag_space = 1;
 		else if (**format == '#')
-			specifier->flag_hash = 1;
+			specifiers->flag_hash = 1;
 		else if (**format == '0')
-			specifier->flag_zero = 1;
+			specifiers->flag_zero = 1;
 		else
-			break;
+			break ;
 		(*format)++;
 	}
+	if (specifiers->flag_minus)
+		specifiers->flag_zero = 0;
 }
 
-static void		ft_parse_width_field(const char **format, t_format *specifier)
+static void		ft_parse_width_field(const char **format, t_format *specifiers)
 {
 	while (**format >= '0' && **format <= '9')
 	{
-		specifier->width_field *= 10;
-		specifier->width_field += **format - 48;
+		specifiers->width_field *= 10;
+		specifiers->width_field += **format - 48;
 		(*format)++;
 	}
 }
 
-static void		ft_parse_precision(const char **format, t_format *specifier)
+static void		ft_parse_precision(const char **format, t_format *specifiers)
 {
-    if (**format == '.')
+	if (**format == '.')
 	{
-		specifier->precision = 0;
+		specifiers->precision = 0;
 		(*format)++;
 		while (**format >= '0' && **format <= '9')
 		{
-			specifier->precision *= 10;
-			specifier->precision += **format - 48;
+			specifiers->precision *= 10;
+			specifiers->precision += **format - 48;
 			(*format)++;
 		}
 	}
 }
 
-static void		ft_parse_length(const char **format, t_format *specifier)
+static void		ft_parse_length(const char **format, t_format *specifiers)
 {
 	if (**format == 'h' && *(*format + 1) == 'h')
-		specifier->length = hh;
+		specifiers->length = hh;
 	else if (**format == 'h')
-		specifier->length = h;
+		specifiers->length = h;
 	else if (**format == 'l' && *(*format + 1) == 'l')
-		specifier->length = ll;
+		specifiers->length = ll;
 	else if (**format == 'l')
-		specifier->length = l;
+		specifiers->length = l;
 	else if (**format == 'L')
-		specifier->length = L;
+		specifiers->length = L;
 	else
 		(*format)--;
 	(*format)++;
-	if (specifier->length == hh || specifier->length == ll)
+	if (specifiers->length == hh || specifiers->length == ll)
 		(*format)++;
 }
 

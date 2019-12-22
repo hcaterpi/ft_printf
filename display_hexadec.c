@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_octal.c                                    :+:      :+:    :+:   */
+/*   display_hexadec.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hcaterpi <hcaterpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/22 14:27:04 by hcaterpi          #+#    #+#             */
-/*   Updated: 2019/12/22 18:54:05 by hcaterpi         ###   ########.fr       */
+/*   Created: 2019/12/22 15:09:59 by hcaterpi          #+#    #+#             */
+/*   Updated: 2019/12/22 19:11:53 by hcaterpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,70 +29,67 @@ static intmax_t		ft_get_number(va_list arguments, t_format *specifiers)
 	return (n);
 }
 
-static char			*ft_zero_str(t_format *specifiers)
+static char			*ft_zero_str(int precision)
 {
 	char	*str;
 
 	str = (char*)malloc(sizeof(char) * 2);
 	str[0] = '0';
 	str[1] = '\0';
-	if (!specifiers->precision && !specifiers->flag_hash)
+	if (precision == 0)
 		str[0] = '\0';
 	return (str);
 }
 
-static char			*ft_itoa_base(unsigned long n, t_format *specifiers)
+static char			*ft_itoa_base(unsigned long number, t_format *specifiers)
 {
 	unsigned long	buffer;
 	int				length;
 	char			*str;
 
-	if (n == 0)
-		return (ft_zero_str(specifiers));
+	if (number == 0)
+		return (ft_zero_str(specifiers->precision));
 	length = 0;
-	if (specifiers->flag_hash == 1)
-		length++;
-	buffer = n;
+	buffer = number;
 	while (buffer && ++length)
-		buffer /= 8;
+		buffer /= 16;
 	str = (char*)malloc(sizeof(char) * (length + 1));
-	if (specifiers->flag_hash == 1)
-		str[0] = '0';
 	str[length] = '\0';
-	buffer = n;
+	buffer = number;
 	while (buffer)
 	{
-		str[length - 1] = ft_get_char(buffer % 8, 'a');
-		buffer /= 8;
+		str[length - 1] = ft_get_char(buffer % 16, specifiers->type_field - 23);
+		buffer /= 16;
 		length--;
 	}
 	return (str);
 }
 
-int					ft_display_octal(va_list arguments, t_format *specifiers)
+int					ft_display_hexadec(va_list arguments, t_format *specifiers)
 {
-	int			counter;
-	int			length;
-	intmax_t	number;
-	char		*str;
+	int				counter;
+	int				length;
+	unsigned long	number;
+	char			*str;
 
 	counter = 0;
-	number = ft_get_number(arguments, specifiers);
+	if (!(number = ft_get_number(arguments, specifiers)))
+		specifiers->flag_hash = 0;
 	str = ft_itoa_base(number, specifiers);
 	length = ft_strlen(str);
 	if (specifiers->flag_minus == 0 && specifiers->flag_zero == 0)
-		counter += ft_print_space(' ', specifiers->width_field - length
-		- ft_nonnegative(specifiers->precision - length));
+		counter += ft_print_space(' ', specifiers->width_field
+		- length - 2 * specifiers->flag_hash);
+	if (specifiers->flag_hash == 1 && (counter += ft_print_char('0')))
+		counter += ft_print_char(specifiers->type_field);
 	if (specifiers->flag_zero == 1)
 		counter += ft_print_space('0', specifiers->width_field
 		- length - 2 * specifiers->flag_hash);
-	else if (specifiers->precision)
-		counter += ft_print_space('0', specifiers->precision
-		- length - 2 * specifiers->flag_hash);
+	counter += ft_print_space('0', specifiers->precision - length);
 	counter += ft_print_string(str);
 	if (specifiers->flag_minus == 1)
-		counter += ft_print_space(' ', specifiers->width_field - length
-		- ft_nonnegative(specifiers->precision - length));
+		counter += ft_print_space(' ', specifiers->width_field
+		- length - 2 * specifiers->flag_hash);
 	free(str);
 	return (counter);
 }

@@ -3,26 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: hcaterpi <hcaterpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/09/26 14:40:19 by htrent            #+#    #+#              #
-#    Updated: 2019/12/07 15:30:54 by marvin           ###   ########.fr        #
+#    Created: 2019/12/22 14:28:14 by hcaterpi          #+#    #+#              #
+#    Updated: 2019/12/22 15:37:04 by hcaterpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean re
 
-NAME =	ft_printf.a
+NAME =	libftprintf.a
 
-SRCS =	display_char.c \
+SRCS =	display_binary.c \
+		display_char.c \
 		display_float.c \
-		display_hexadecimal.c \
+		display_hexadec.c \
 		display_integer.c \
 		display_octal.c \
 		display_pointer.c \
 		display_string.c \
 		display_unsigned.c \
 		display.c \
+		ft_ftoa.c \
 		ft_printf.c \
 		parsing.c \
 		secondary_functions.c
